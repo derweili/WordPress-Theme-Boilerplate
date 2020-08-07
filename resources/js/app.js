@@ -53,3 +53,5 @@ const App = {
 jQuery(document).ready(function() {
     App.boot();
 });
+
+console.log('theme app js')

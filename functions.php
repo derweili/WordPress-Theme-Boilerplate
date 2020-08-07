@@ -142,6 +142,24 @@ add_action('after_setup_theme', function () {
         }
     );
 
+    add_action(
+        'enqueue_block_editor_assets',
+        function () {
+            global $wpack_enqueue;
+
+            $assetsConfig = [
+                'js' => true,
+                'css' => true,
+                'js_dep' => [ 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-components', 'wp-editor' ],
+                'css_dep' => [],
+                'in_footer' => false,
+                'media' => 'all',
+            ];
+
+            $wpack_enqueue->enqueue( 'app', 'editor', $assetsConfig );
+        }
+    );
+
     /**
      * ------------------------------------------------------------------------------
      * Register menu location

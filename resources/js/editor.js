@@ -1,3 +1,3 @@
 import '../scss/editor-styles.scss'
 
-console.log("Theme Editor Script")
+console.log("Theme Editor Script");
