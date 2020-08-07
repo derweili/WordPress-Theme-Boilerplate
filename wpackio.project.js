@@ -1,5 +1,48 @@
 const pkg = require('./package.json');
 
+const globImporter = require('node-sass-glob-importer');
+
+/**
+ * Add node-sass-glob-importer to exsting webpack configuration
+ * 
+ * @param {*} config 
+ * @param {*} merge 
+ * @param {*} appDir 
+ * @param {*} isDev 
+ */
+const addNodeSassGlobImporter = (config, merge, appDir, isDev) => {
+	// Create a new config
+	const newConfig = { ...config };
+
+	/**
+	 * Get rule and use index of the loader
+	 */
+	let sassRuleIndex = null;
+	let sassUseIndex = null;
+	
+	for (let ruleIndex = 0; ruleIndex < newConfig.module.rules.length; ruleIndex++) {
+		
+		const rule = newConfig.module.rules[ruleIndex];
+
+		for (let useIndex = 0; useIndex < rule.use.length; useIndex++) {
+			if( rule.use[useIndex].loader.includes('sass-loader') ) {
+				sassRuleIndex = ruleIndex;
+				sassUseIndex = useIndex;
+
+				break;
+			}
+		}
+		
+		if(sassRuleIndex !== null ) break;
+	}
+	
+	// add new sassOptions object to the sass-loader options
+	newConfig.module.rules[sassRuleIndex].use[sassUseIndex].options.sassOptions = {};
+	newConfig.module.rules[sassRuleIndex].use[sassUseIndex].options.sassOptions.importer = globImporter();
+	
+	return newConfig;
+}
+
 module.exports = {
 	// Project Identity
 	appName: 'derweiliWordPressStarterTheme', // Unique name of your project
@@ -33,11 +76,15 @@ module.exports = {
 				// vendor: './src/mobile/vendor.js', // Could be a string
 				main: [
 					'./resources/js/app.js',
-					'./resources/scss/app.scss'
+				], // Or an array of string (string[])
+				editor: [
+					'./resources/js/editor.js',
 				], // Or an array of string (string[])
 			},
-			// Extra webpack config to be passed directly
-			webpackConfig: undefined,
+			/**
+			 * Extend webpack configuration to support node-sass-glob-importer
+			 */
+			webpackConfig: addNodeSassGlobImporter
 		},
 		// If has more length, then multi-compiler
 	],

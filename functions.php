@@ -109,34 +109,38 @@ add_action('after_setup_theme', function () {
      * @see https://github.com/Horttcore/wp-assets
      * ------------------------------------------------------------------------------
      */
-    $enqueue = new \WPackio\Enqueue( 'derweiliWordPressStarterTheme', 'dist', '1.0.0', 'theme' );
 
-    $assetsConfig = [
-        'js' => true,
-        'css' => true,
-        'js_dep' => ['jQuery'],
-        'css_dep' => [],
-        'in_footer' => true,
-        'media' => 'all',
-    ];
+    global $wpack_enqueue;
+    $wpack_enqueue = new \WPackio\Enqueue(
+        // Name of the project, same as `appName` in wpackio.project.js
+        'derweiliWordPressStarterTheme',
+        // Output directory, same as `outputPath` in wpackio.project.js
+        'dist',
+        // Version of your plugin
+        '1.0.0',
+        // Type of your project, same as `type` in wpackio.project.js
+        'theme',
+        // Plugin location, pass false in case of theme.
+        false
+    );
 
-    $assets = $enqueue->getAssets( 'app', 'main', $assetsConfig );
+    add_action(
+        'wp_enqueue_scripts',
+        function () {
+            global $wpack_enqueue;
 
-    $jses = $assets['js'];
-    $csses = $assets['css'];
+            $assetsConfig = [
+                'js' => true,
+                'css' => true,
+                'js_dep' => ['jquery'],
+                'css_dep' => [],
+                'in_footer' => true,
+                'media' => 'all',
+            ];
 
-    foreach ( $jses as $js ) {
-        if ( $assetsConfig['js'] ) {
-            (new Script($js['handle'], $js['url'], $assetsConfig["js_dep"], true, true))->register();
+            $wpack_enqueue->enqueue( 'app', 'main', $assetsConfig );
         }
-    }
-
-    foreach ( $csses as $css ) {
-        if ( $assetsConfig['css'] ) {
-            (new Style($css['handle'], $css['url'], $assetsConfig['css_dep']))->register();
-        }
-    }
-
+    );
 
     /**
      * ------------------------------------------------------------------------------
@@ -260,3 +264,47 @@ add_action('after_setup_theme', function () {
  * Put project specific code in functions.custom.php
  * ------------------------------------------------------------------------------
  */
+
+
+ // Do stuff through this plugin
+ class ThemeInit {
+	/**
+	 * @var \WPackio\Enqueue
+	 */
+	public $enqueue;
+
+	public function __construct() {
+		// It is important that we init the Enqueue class right at the plugin/theme load time
+		$this->enqueue = new \WPackio\Enqueue(
+			// Name of the project, same as `appName` in wpackio.project.js
+			'derweiliWordPressStarterTheme',
+			// Output directory, same as `outputPath` in wpackio.project.js
+			'dist',
+			// Version of your plugin
+			'1.0.0',
+			// Type of your project, same as `type` in wpackio.project.js
+			'theme',
+			// Plugin location, pass false in case of theme.
+			false
+		);
+		// Enqueue a few of our entry points
+		add_action( 'wp_enqueue_scripts', [ $this, 'plugin_enqueue' ] );
+	}
+
+	public function plugin_enqueue() {
+        // Enqueue files[0] (name = app) - entryPoint main
+        $assetsConfig = [
+            'js' => true,
+            'css' => true,
+            'js_dep' => ['jquery'],
+            'css_dep' => [],
+            'in_footer' => true,
+            'media' => 'all',
+        ];
+		$this->enqueue->enqueue( 'app', 'main', $assetsConfig );
+	}
+}
+
+
+// Init
+// new ThemeInit();
