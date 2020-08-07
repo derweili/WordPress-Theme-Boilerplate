@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "43bc3597d7e49cb56df6df106cfbc6cf",
+    "content-hash": "bfaf0e3fec119b96f4f99f69efb09c2b",
     "packages": [
         {
             "name": "horttcore/wp-assets",

@@ -1,6 +1,6 @@
 {
-    "name": "werbeagenten/werbeagenten-starter-theme",
-    "description": "Werbeagenten WordPress Starter Theme",
+    "name": "derweili/wordpress-starter-theme",
+    "description": "WordPress Starter Theme",
     "type": "wordpress-theme",
     "autoload": {
         "psr-4": {

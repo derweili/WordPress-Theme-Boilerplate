@@ -2,13 +2,13 @@ const pkg = require('./package.json');
 
 module.exports = {
 	// Project Identity
-	appName: 'werbeagentenStarterTheme', // Unique name of your project
+	appName: 'derweiliWordPressStarterTheme', // Unique name of your project
 	type: 'theme', // Plugin or theme
-	slug: 'werbeagenten-starter-theme', // Plugin or Theme slug, basically the directory name under `wp-content/<themes|plugins>`
+	slug: 'derweili-wordpress-starter-theme', // Plugin or Theme slug, basically the directory name under `wp-content/<themes|plugins>`
 	// Used to generate banners on top of compiled stuff
 	bannerConfig: {
-		name: 'werbeagentenStarterTheme',
-		author: 'TW Werbeagenten Heidelberg GmbH <mail@werbeagenten.de>',
+		name: 'derweiliWordPressStarterTheme',
+		author: 'derweili <jw@derweili.de>',
 		license: 'GPL-2.0+',
 		link: 'GPL-2.0+',
 		version: pkg.version,

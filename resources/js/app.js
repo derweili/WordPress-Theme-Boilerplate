@@ -1,3 +1,5 @@
+import '../scss/app.scss'
+
 const App = {
     /**
      * Cache elenents and bind events

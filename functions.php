@@ -109,7 +109,7 @@ add_action('after_setup_theme', function () {
      * @see https://github.com/Horttcore/wp-assets
      * ------------------------------------------------------------------------------
      */
-    $enqueue = new \WPackio\Enqueue( 'werbeagentenStarterTheme', 'dist', '1.0.0', 'theme' );
+    $enqueue = new \WPackio\Enqueue( 'derweiliWordPressStarterTheme', 'dist', '1.0.0', 'theme' );
 
     $assetsConfig = [
         'js' => true,
