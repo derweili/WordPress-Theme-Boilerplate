@@ -14,8 +14,8 @@
  * - Register new directory for WordPress template files
  * ------------------------------------------------------------------------------
  */
-use \Horttcore\Assets\Script;
-use \Horttcore\Assets\Style;
+use \RalfHortt\Assets\Script;
+use \RalfHortt\Assets\Style;
 use \Horttcore\Customizer\Customize;
 use \RalfHortt\ContentWidth\ContentWidth;
 use \RalfHortt\ImageSizes\ImageSize;
@@ -109,9 +109,33 @@ add_action('after_setup_theme', function () {
      * @see https://github.com/Horttcore/wp-assets
      * ------------------------------------------------------------------------------
      */
-    (new Script('theme', get_template_directory_uri() . '/dist/js/app.js', ['jquery'], true, true))->register();
-    (new Style('sanitize-css', get_template_directory_uri() . '/dist/vendor/sanitize-css/sanitize.css'))->register();
-    (new Style('theme', get_template_directory_uri() . '/dist/css/app.css', ['sanitize-css']))->register();
+    $enqueue = new \WPackio\Enqueue( 'werbeagentenStarterTheme', 'dist', '1.0.0', 'theme' );
+
+    $assetsConfig = [
+        'js' => true,
+        'css' => true,
+        'js_dep' => ['jQuery'],
+        'css_dep' => [],
+        'in_footer' => true,
+        'media' => 'all',
+    ];
+
+    $assets = $enqueue->getAssets( 'app', 'main', $assetsConfig );
+
+    $jses = $assets['js'];
+    $csses = $assets['css'];
+
+    foreach ( $jses as $js ) {
+        if ( $assetsConfig['js'] ) {
+            (new Script($js['handle'], $js['url'], $assetsConfig["js_dep"], true, true))->register();
+        }
+    }
+
+    foreach ( $csses as $css ) {
+        if ( $assetsConfig['css'] ) {
+            (new Style($css['handle'], $css['url'], $assetsConfig['css_dep']))->register();
+        }
+    }
 
 
     /**

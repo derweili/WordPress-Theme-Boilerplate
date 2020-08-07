@@ -1,10 +1,10 @@
 {
-    "name": "ralfhortt/wordpress-theme-boilerplate",
-    "description": "A WordPress Boilerplate Theme by Ralf Hortt",
+    "name": "werbeagenten/werbeagenten-starter-theme",
+    "description": "Werbeagenten WordPress Starter Theme",
     "type": "wordpress-theme",
     "autoload": {
         "psr-4": {
-            "RalfHortt\\Aurora\\": "src/classes/"
+            "Werbeagenten\\Aurora\\": "src/classes/"
         },
         "files": [
             "functions.custom.php",
@@ -16,7 +16,8 @@
         "horttcore/wp-assets": "*",
         "ralfhortt/wp-template-loader": "*",
         "ralfhortt/wp-image-sizes": "*",
-        "ralfhortt/wp-content-width": "*"
+        "ralfhortt/wp-content-width": "*",
+        "wpackio/enqueue": "^2.2"
     },
     "scripts": {
         "post-create-project-cmd": "composer run-script replace-textdomain && composer run-script copy-env",

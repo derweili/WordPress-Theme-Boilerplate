@@ -2,7 +2,7 @@
 /**
  * 404 template
  *
- * RalfHortt\Aurora
+ * Werbeagenten\Aurora
  * @version 1.0.0
  */
 
